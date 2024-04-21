@@ -10,4 +10,4 @@ spring:
           public-key-location: classpath:authz.pub
 logging:
   level:
-    org.springframework.security: TRACE
+    org.springframework.security: trace
