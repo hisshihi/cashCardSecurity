@@ -1,6 +1,7 @@
 package com.example.cashcard.controllers;
 
 import com.example.cashcard.domain.CashCard;
+import com.example.cashcard.metaAnnotation.CurrentOwner;
 import com.example.cashcard.services.CashCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +63,7 @@ public class CashCardController {
      *   Используя @CurrentSecurityContext в параметре аутентификации, мы указываем Spring Security внедрить в метод текущий объект аутентификации.
      *  Это позволяет нам получить доступ к данным аутентифицированного пользователя, таким как его имя пользователя, роли и другие атрибуты.
      */
-    private ResponseEntity<Iterable<CashCard>> findAll(@CurrentSecurityContext(expression = "authentication.name") String owner) {
+    private ResponseEntity<Iterable<CashCard>> findAll(@CurrentOwner String owner) {
         var result =
                 this.cashCardService.findByOwner(owner);
         return ResponseEntity.ok(result);
