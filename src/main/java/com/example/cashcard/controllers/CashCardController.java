@@ -2,6 +2,7 @@ package com.example.cashcard.controllers;
 
 import com.example.cashcard.domain.CashCard;
 import com.example.cashcard.metaAnnotation.CurrentOwner;
+import com.example.cashcard.request.CashCardRequest;
 import com.example.cashcard.services.CashCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +39,8 @@ public class CashCardController {
 
     //    Создание карты
     @PostMapping
-    private ResponseEntity<CashCard> createCashCard(@RequestBody CashCard newCashCard, UriComponentsBuilder ucb, @CurrentOwner String owner) {
-        CashCard cashCard = new CashCard(newCashCard.getAmount(), owner);
-
+    private ResponseEntity<CashCard> createCashCard(@RequestBody CashCardRequest cashCardRequest, UriComponentsBuilder ucb, @CurrentOwner String owner) {
+        CashCard cashCard = new CashCard(cashCardRequest.amount(), owner);
         CashCard savedCashCard = cashCardService.saveCashCard(cashCard);
 //         здесь мы создаем URI, который будет содержать локацию созданной кэш-карты.
 //         Мы используем UriComponentsBuilder для построения URI с помощью шаблона /cashcards/{id},

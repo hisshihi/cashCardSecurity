@@ -58,8 +58,7 @@ class CashcardApplicationTests {
                         .contentType("application/json")
                         .content("""
                                 {
-                                	"amount": 250.00,
-                                	"owner": "hiss"
+                                	"amount": 250.00
                                 }
                                 """))
 //				Проверяем, что статус ответа равен 201 Created
