@@ -5,11 +5,11 @@ import com.example.cashcard.services.CashCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/cashcards")
@@ -54,12 +54,17 @@ public class CashCardController {
     }
 
     //	Ищем все карты
-//    Для метода findAll добавляем обязательный аргумент аунтификации
+//    Для метода findAll добавляем обязательный параметр аунтификации
 //    Далее сравниваем данные, которые пришли от аунтифицированного принципала с данными карты owner
     @GetMapping
-    private ResponseEntity<Iterable<CashCard>> findAll(Authentication authentication) {
+//    @CurrentSecurityContext(expression = "authentication") - аннотация которая позволяет вводить текущий контекст безопасности в параметр метода
+    /*
+     *   Используя @CurrentSecurityContext в параметре аутентификации, мы указываем Spring Security внедрить в метод текущий объект аутентификации.
+     *  Это позволяет нам получить доступ к данным аутентифицированного пользователя, таким как его имя пользователя, роли и другие атрибуты.
+     */
+    private ResponseEntity<Iterable<CashCard>> findAll(@CurrentSecurityContext(expression = "authentication.name") String owner) {
         var result =
-                this.cashCardService.findByOwner(authentication.getName());
+                this.cashCardService.findByOwner(owner);
         return ResponseEntity.ok(result);
     }
 
