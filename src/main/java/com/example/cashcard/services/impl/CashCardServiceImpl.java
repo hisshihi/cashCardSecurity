@@ -28,4 +28,9 @@ public class CashCardServiceImpl implements CashCardService {
     public Iterable<CashCard> findAll() {
         return cashCardRepository.findAll();
     }
+
+    @Override
+    public Iterable<CashCard> findByOwner(String owner) {
+        return cashCardRepository.findByOwner(owner);
+    }
 }

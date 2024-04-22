@@ -10,4 +10,6 @@ public interface CashCardService {
     CashCard saveCashCard(CashCard newCashCard);
 
     Iterable<CashCard> findAll();
+
+    Iterable<CashCard> findByOwner(String owner);
 }

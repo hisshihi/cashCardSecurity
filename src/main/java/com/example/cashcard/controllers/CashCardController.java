@@ -58,13 +58,9 @@ public class CashCardController {
 //    Далее сравниваем данные, которые пришли от аунтифицированного принципала с данными карты owner
     @GetMapping
     private ResponseEntity<Iterable<CashCard>> findAll(Authentication authentication) {
-        var filltered = new ArrayList<CashCard>();
-        this.cashCardService.findAll().forEach(cashCard -> {
-            if (cashCard.getOwner().equals(authentication.getName())) {
-                filltered.add(cashCard);
-            }
-        });
-        return ResponseEntity.ok(filltered);
+        var result =
+                this.cashCardService.findByOwner(authentication.getName());
+        return ResponseEntity.ok(result);
     }
 
 }
