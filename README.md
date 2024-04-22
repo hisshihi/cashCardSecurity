@@ -354,3 +354,15 @@ public ResponseEntity<Iterable<CashCard>> findAll(@CurrentOwner String owner) { 
 На самом деле Spring Security поставляется с собственной метаподобной аннотацией для @CurrentSecurityContext вызова @AuthenticationPrincipal.
 
 Он эквивалентен @CurrentSecurityContext(expression="authentication.principal")выражениям SpEL и поддерживает их. Это может пригодиться, если вам нужен только принципал и вы не хотите создавать собственную метааннотацию; это особенно хорошо, если ваш принципал является пользовательским классом.
+
+Вся защита описана в приложении.
+
+#### Необходимость создания record классов для защиты
+Они нужны для предоставления минимума данных для защиты endpoint`a, поэтому их необходимо использовать:
+`public record CashCardRequest(Double amount) {
+}`
+Использование:
+`@PostMapping
+private ResponseEntity<CashCard> createCashCard(@RequestBody CashCardRequest cashCardRequest, UriComponentsBuilder ucb, @CurrentOwner String owner) {
+CashCard cashCard = new CashCard(cashCardRequest.amount(), owner);
+CashCard savedCashCard = cashCardService.saveCashCard(cashCard);`
