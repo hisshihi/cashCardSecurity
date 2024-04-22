@@ -38,8 +38,10 @@ public class CashCardController {
 
     //    Создание карты
     @PostMapping
-    private ResponseEntity<CashCard> createCashCard(@RequestBody CashCard newCashCard, UriComponentsBuilder ucb) {
-        CashCard savedCashCard = cashCardService.saveCashCard(newCashCard);
+    private ResponseEntity<CashCard> createCashCard(@RequestBody CashCard newCashCard, UriComponentsBuilder ucb, @CurrentOwner String owner) {
+        CashCard cashCard = new CashCard(newCashCard.getAmount(), owner);
+
+        CashCard savedCashCard = cashCardService.saveCashCard(cashCard);
 //         здесь мы создаем URI, который будет содержать локацию созданной кэш-карты.
 //         Мы используем UriComponentsBuilder для построения URI с помощью шаблона /cashcards/{id},
 //         где {id} - это идентификатор созданной кэш-карты.

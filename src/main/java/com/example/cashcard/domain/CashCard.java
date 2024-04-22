@@ -1,17 +1,15 @@
 package com.example.cashcard.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
 @Builder
 public class CashCard {
@@ -21,5 +19,10 @@ public class CashCard {
     private Long id;
     private Double amount;
     private String owner;
+
+    public CashCard(Double amount, String owner) {
+        this.amount = amount;
+        this.owner = owner;
+    }
 
 }

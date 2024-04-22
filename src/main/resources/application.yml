@@ -8,6 +8,5 @@ spring:
       resourceserver:
         jwt:
           public-key-location: classpath:authz.pub
-logging:
-  level:
+logging.level:
     org.springframework.security: trace
