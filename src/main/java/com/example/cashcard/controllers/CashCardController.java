@@ -4,10 +4,12 @@ import com.example.cashcard.domain.CashCard;
 import com.example.cashcard.services.CashCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/cashcards")
@@ -52,9 +54,17 @@ public class CashCardController {
     }
 
     //	Ищем все карты
+//    Для метода findAll добавляем обязательный аргумент аунтификации
+//    Далее сравниваем данные, которые пришли от аунтифицированного принципала с данными карты owner
     @GetMapping
-    private ResponseEntity<Iterable<CashCard>> findAll() {
-        return ResponseEntity.ok(this.cashCardService.findAll());
+    private ResponseEntity<Iterable<CashCard>> findAll(Authentication authentication) {
+        var filltered = new ArrayList<CashCard>();
+        this.cashCardService.findAll().forEach(cashCard -> {
+            if (cashCard.getOwner().equals(authentication.getName())) {
+                filltered.add(cashCard);
+            }
+        });
+        return ResponseEntity.ok(filltered);
     }
 
 }

@@ -8,7 +8,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *  Она позволяет нам легко имитировать аутентифицированного пользователя в тестах, не запуская полноценную систему аутентификации и авторизации.
  *  Аннотация принимает различные параметры, такие как username, password, roles и authorities, которые могут быть использованы для определения пользователя.
  */
-@WithMockUser
+@WithMockUser(username = "hiss")
 class CashcardApplicationTests {
 
     @Autowired
@@ -86,9 +86,9 @@ class CashcardApplicationTests {
     void shouldReturnAllCashCardsWhenListIsRequested() throws Exception {
         this.mockMvc.perform(get("/cashcards"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(4))
-                .andExpect(jsonPath("$..owner").value(hasItem("hiss")))
-                .andExpect(jsonPath("$..owner").value(hasItem("arina")));
+//                Проверяем, что у нашего принципала из jwt токена приходит нужное количество карт и в приницпе тот самый принципал
+                .andExpect(jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$..owner").value(everyItem(equalTo("hiss"))));
     }
 
 }
